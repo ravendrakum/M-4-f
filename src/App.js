@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Search from "./Components/Search";
+import DisplayList from "./Components/DisplayList";
+import { Button } from "antd";
 
-function App() {
+const App = () => {
+  const [value, setValue] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  const [data, setData] = useState("");
+  const [err, setErr] = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app" style={{ padding: loading ? "0px" : "30px" }}>
+      {!loading ? (
+        (data && <DisplayList value={value} data={data} />) || (
+          <Search
+            value={value}
+            setValue={setValue}
+            err={err}
+            setErr={setErr}
+            setData={setData}
+            setLoading={setLoading}
+          />
+        )
+      ) : (
+        <div className="loder">
+          <Button disabled className="loading" loading={true}>
+            Loading
+          </Button>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default App;
